@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Buscador</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" href="css/form.css">
+  </head>
+  <body>
+    <form  class="decor" method="post" action="cgi-bin/save_file.py" enctype="multipart/form-data">
+      <div class="form-left-decoration"></div>
+      <div class="form-right-decoration"></div>
+      <div class="circle"></div>
+      <div class="form-inner">
+        <h1>Ingresa un texto</h1>
+        <input type="file" id ="file" name="file" accept="text/plain" required>
+        <input type="submit">
+      </div>
+    </form>
+    <script src ="js/arbol.js"></script>
+  </body>
+</html>
