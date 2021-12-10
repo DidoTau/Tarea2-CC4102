@@ -20,6 +20,7 @@ string = env_var["QUERY_STRING"][7:]
 
 #busco en el arbol
 resp = arbolP.search(string.replace("%20", " "))
+resp = list(set(resp))
 dic = {}
 for i in range(len(resp)):
     dic[i] = resp[i]

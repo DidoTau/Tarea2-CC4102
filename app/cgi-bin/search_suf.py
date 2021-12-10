@@ -21,9 +21,12 @@ string = env_var["QUERY_STRING"][7:][:-1]
 #busco en el arr de sufijos
 f, resp= A.searchSuffix(string.replace("%20", " "))
 
+#eliminar duplicados
+
+resp = list(set(resp))
 dic = {}
 for i in range(len(resp)):
-    dic[i] = resp[i]
+    dic[i] = resp[i][:-1]
 
  
 
