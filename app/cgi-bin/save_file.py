@@ -1,13 +1,12 @@
 import cgi
 import cgitb
-import os
-import filetype
+
 import sys
 from arreglo_sufijos import *
 from arbol_patricia import *
 import pickle
 
-sys.setrecursionlimit(3000)
+sys.setrecursionlimit(5500000)
 cgitb.enable()
 
 print('Content-type: text/html; charset=UTF-8')
@@ -19,29 +18,29 @@ form = cgi.FieldStorage()
 
 fileobj = form['file']
 filename = fileobj.filename
-#guardar archivo
-# open('media/' + filename , 'wb').write(fileobj.file.read())
-#leo archivo
+
 file = fileobj.file.read().decode('utf-8')
 # arreglo de sufijos
-n = len(file)
-A = list(range(n))
-A = estebanSort(A, 0, n-1, n, file)
+SA = SuffixArray(file)
+
 
 # arbol patricia
 arbolP = PatriciaTree(file)
-for i in range(n):
+for i in range(len(file)):
     arbolP.insert(i)
 # arbolP.printTree(arbolP.root)
 arbolP.preprocessing(arbolP.root)
+
+# guardando arbol patricia
 tree_pickle = open("tree.pkl", 'wb')
 pickle.dump(arbolP, tree_pickle)
 tree_pickle.close()
 
-infile = open("tree.pkl",'rb')
-arbolP_read = pickle.load(infile)
-infile.close()
-# arbolP_read.printTree(arbolP_read.root)
+#guardando lista de sufijos
+with open("suff_list.pkl", "wb") as fp:
+    pickle.dump(SA, fp)
+
+
 html = f'''
 <!DOCTYPE html>
 <html>
@@ -56,18 +55,27 @@ html = f'''
     <form  class="decor" autocomplete="off" method="post" action="" enctype="multipart/form-data">
       <div class="form-left-decoration"></div>
       <div class="form-right-decoration"></div>
+      <div class="form-inner">
+        <h1>Busca un string en el arreglo de sufijos</h1>
+        <input type="text" list="results_suf" name="search_suf" id="search_suf" placeholder="Ingresa tu búsqueda">
+         <datalist id="results_suf">
+         </datalist>
+        <p id="log_suf">No has buscado nada</p>
+        
+      </div>
       <div class="circle"></div>
       <div class="form-inner">
-        <h1>Busca en tu texto</h1>
+        <h1>Busca un sufijo en el árbol</h1>
         <input type="text" list="results" name="search" id="search" placeholder="Ingresa tu búsqueda">
          <datalist id="results">
-
          </datalist>
         <p id="log">No has buscado nada</p>
         
       </div>
     </form>
+    <script src ="../js/sufijo.js"></script>
     <script src ="../js/arbol.js"></script>
+    
   </body>
 </html>
 '''

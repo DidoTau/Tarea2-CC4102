@@ -1,5 +1,8 @@
 from typing import Match
 from utils import *
+import pickle
+import sys
+sys.setrecursionlimit(5500000)
 
 class Node:
     def __init__(self, char, length, leaf = False, index = None):
@@ -9,7 +12,7 @@ class Node:
         self.leaf = leaf # booleano indica si es hoja, todos por defecto lo son
         self.char = char # char leído para llegar al nodo actual
         self.length = length # largo del string 
-        self.desc = None
+        self.desc = None # descendientes
 
     def set_parent(self, parent):
         """
@@ -75,7 +78,7 @@ class Node:
                     
         2. nodo interno 
 
-                         
+                      
         """
 
         str_in = file[index:]
@@ -105,7 +108,7 @@ class Node:
         else: #recorriendo el Patricia, nodo interno
 
             if j < len(str_in): # no me he pasado
-                current = str_in[j] # string aindexctual a comparar
+                current = str_in[j] # string index actual a comparar
                 # print("current: " + current)
                 ix = [h for h in self.children if h.char == current] # busco indices con match con current char
                 # print("match encontrados: "+ str(len(ix)))
@@ -142,7 +145,9 @@ class Node:
                 new_h.set_parent(new_v)
         
     def descendents(self, desc):
-        # print("toy en descent: " + str(len(desc)))
+        """
+        Entrega una lista con las hojas que descienden de un nodo
+        """
         for h in self.children:
             if h.leaf ==True:
                 desc.append(h)
@@ -209,7 +214,7 @@ class PatriciaTree:
                 self.preprocessing(i)
 
 if __name__ == '__main__':
-     archivo = open('../../frutas.txt', 'r').read()
+     archivo = open('../../aaa.txt', 'r').read()
      arbolP = PatriciaTree(archivo)
      for i in range(len(arbolP.file)):
 #         # print("Agregando {} \n".format(i))
@@ -220,10 +225,9 @@ if __name__ == '__main__':
 #     # arbolP.insert(5)
 #     arbolP.printTree(arbolP.root)
      arbolP.preprocessing(arbolP.root)
-     print("BUSCANDO 'A_':")
-     print(arbolP.search("A $"))
-
-
+     tree_pickle = open("tree_aaa.pkl", 'wb')
+     pickle.dump(arbolP, tree_pickle)
+     tree_pickle.close()
 #     print("BUSCANDO 'A':")
 #     print(arbolP.search("A$"))
 #     print("BUSCANDO 'ANE':")

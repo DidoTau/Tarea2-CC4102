@@ -1,27 +1,10 @@
-// $.ajax({
-//     type: "POST",
-//     url: "~/pythoncode.py",
-//     data: { param: text}
-//   }).done(function( o ) {
-//      // do something
-//   });
-
-// $('file').on('change', function() {
-//     alert( this.value );
-//   })
-
-// $('search').on('input', function() {
-// alert( this.value );
-// })
-
 let input = document.getElementById('search');
 let log = document.getElementById('log');
 let results = document.getElementById('results');
 input.oninput = searchSuf;
 
 function searchSuf(e) {
-//   log.textContent = `Ingresaste
-//       ${e.target.value} .`;
+
     results.innerHTML = "";
     var string = e.target.value + "$";
    
@@ -29,7 +12,7 @@ function searchSuf(e) {
     xhttp.onreadystatechange= function() {
         if (this.readyState == 4 && this.status == 200) {
        // Typical action to be performed when the document is ready:
-        //    JSON.parse(httpRequest.responseText)
+        
         var resp = JSON.parse(this.responseText);
        
 

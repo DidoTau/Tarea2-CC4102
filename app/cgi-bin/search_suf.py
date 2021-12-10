@@ -3,23 +3,24 @@ import pickle
 import sys
 import json
 
-from arbol_patricia import *
+from arreglo_sufijos import *
 
 
 
 utf8stdout = open(1, 'w', encoding='utf-8', closefd=False)
 
-# recuperar el arbol
-infile = open("tree.pkl",'rb')
-arbolP = pickle.load(infile)
+# recuperar la lista
+infile = open("suff_list.pkl",'rb')
+A = pickle.load(infile)
 infile.close()
 
 # variable de ambiente para recuperar el get HARDCODEADO
 env_var = dict(os.environ)
-string = env_var["QUERY_STRING"][7:]
+string = env_var["QUERY_STRING"][7:][:-1]
 
-#busco en el arbol
-resp = arbolP.search(string.replace("%20", " "))
+#busco en el arr de sufijos
+f, resp= A.searchSuffix(string.replace("%20", " "))
+
 dic = {}
 for i in range(len(resp)):
     dic[i] = resp[i]
